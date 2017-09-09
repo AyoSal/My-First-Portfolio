@@ -1,2 +1,3 @@
-# My-First-Portfolio
-This is my first professional portfolio
+# Ayo Salawu's portfolio
+
+This is my professional portfolio. It uses AWS and ReactJS.
