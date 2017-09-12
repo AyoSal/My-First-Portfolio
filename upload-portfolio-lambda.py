@@ -4,19 +4,29 @@ import StringIO
 import zipfile
 
 def lambda_handler(event, context):
-    s3 = boto3.resource('s3', config=Config(signature_version='s3v4'))
+    sns = boto3.resource('sns')
+    topic = sns.Topic('arn:aws:sns:us-east-1:193043339766:deployPortfolioTopic')
 
-    portfolio_bucket = s3.Bucket('portfolio.ayosal.info')
-    build_bucket = s3.Bucket('portfoliobuild.ayosal.info')
+    try:
+        s3 = boto3.resource('s3', config=Config(signature_version='s3v4'))
 
-    portfolio_zip = StringIO.StringIO()
-    build_bucket.download_fileobj('portfoliobuild.zip', portfolio_zip)
+        portfolio_bucket = s3.Bucket('portfolio.ayosal.info')
+        build_bucket = s3.Bucket('portfoliobuild.ayosal.info')
 
-    with zipfile.ZipFile(portfolio_zip) as myzip:
-        for nm in myzip.namelist():
-        obj = myzip.open(nm)
-        portfolio_bucket.upload_fileobj(obj, nm,
-        portfolio_bucket.Object(nm).Acl().put(ACL='public-read')
+        portfolio_zip = StringIO.StringIO()
+        build_bucket.download_fileobj('portfoliobuild.zip', portfolio_zip)
 
-    print "Job Done!"
+        with zipfile.ZipFile(portfolio_zip) as myzip:
+            for nm in myzip.namelist():
+                obj = myzip.open(nm)
+                portfolio_bucket.upload_fileobj(obj, nm)
+                portfolio_bucket.Object(nm).Acl().put(ACL='public-read')
+
+        print "Job Done!"
+        topic.publish(Subject='Portfolio Deployed', Message='Portfolio Deployed Successfully,')
+    except:
+        topic.publish(Subject='Portfolio Deploy Failed', Message='The Portfolio was not deployed successfully!')
+        raise
+
+
     return 'Hello from Lambda'
