@@ -1,0 +1,33 @@
+{
+  "name": "my-first-portfolio",
+  "version": "1.0.0",
+  "description": "My-First-Portfolio",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "webpack": "webpack",
+    "webpack-watch": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AyoSal/My-First-Portfolio.git"
+  },
+  "author": "<AyoSal ayosalawu@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AyoSal/My-First-Portfolio/issues"
+  },
+  "homepage": "https://github.com/AyoSal/My-First-Portfolio#readme",
+  "dependencies": {
+    "local-web-server": "^2.2.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.5.6"
+  }
+}
